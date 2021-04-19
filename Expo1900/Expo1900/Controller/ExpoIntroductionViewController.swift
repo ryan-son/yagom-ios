@@ -17,7 +17,7 @@ final class ExpoIntroductionViewController: UIViewController {
   override var shouldAutorotate: Bool { return false }
   override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation { return .portrait }
   override var supportedInterfaceOrientations: UIInterfaceOrientationMask { return .portrait }
-  private let appDelegate = UIApplication.shared.delegate as! AppDelegate
+  private weak var appDelegate: AppDelegate?
   
   // MARK: - Namespace
   private enum Affix {
@@ -50,12 +50,18 @@ final class ExpoIntroductionViewController: UIViewController {
   }
 
   override func viewWillAppear(_ animated: Bool) {
-    appDelegate.shouldSupportAllOrientation = false
+    appDelegate = UIApplication.shared.delegate as? AppDelegate
+    if let appDelegate = appDelegate {
+      appDelegate.shouldSupportAllOrientation = false
+    }
     navigationController?.setNavigationBarHidden(true, animated: true)
   }
   
   override func viewWillDisappear(_ animated: Bool) {
-    appDelegate.shouldSupportAllOrientation = true
+    if let appDelegate = appDelegate {
+      appDelegate.shouldSupportAllOrientation = true
+    }
+    appDelegate = nil
     navigationController?.setNavigationBarHidden(false, animated: true)
   }
 }
