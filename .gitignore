@@ -101,5 +101,6 @@ iOSInjectionProject/
 
 # DB
 db.sqlite
+Sources/App/LocalDBInfo
 
 # End of https://www.toptal.com/developers/gitignore/api/swift,cocoapods

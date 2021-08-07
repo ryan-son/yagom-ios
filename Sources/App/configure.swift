@@ -2,21 +2,51 @@ import Fluent
 import FluentPostgresDriver
 import Vapor
 
-// configures your application
+enum DatabaseEnvironmentKey {
+
+    static let url = "DATABASE_URL"
+    static let hostName = "DATABASE_HOST"
+    static let userName = "DATABASE_USERNAME"
+    static let password = "DATABASE_PASSWORD"
+    static let databaseName = "DATABASE_NAME"
+    
+    // MARK: Local
+
+    static let localDatabaseName = "project-manager-local"
+    static let localPort = 5432
+    static let localTestingDatabaseName = "project-manager-test"
+    static let localTestingPort = 5433
+}
+
 public func configure(_ app: Application) throws {
-    // uncomment to serve files from /Public folder
-    // app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
-
-    app.databases.use(.postgres(
-        hostname: Environment.get("DATABASE_HOST") ?? "localhost",
-        port: Environment.get("DATABASE_PORT").flatMap(Int.init(_:)) ?? PostgresConfiguration.ianaPortNumber,
-        username: Environment.get("DATABASE_USERNAME") ?? "vapor_username",
-        password: Environment.get("DATABASE_PASSWORD") ?? "vapor_password",
-        database: Environment.get("DATABASE_NAME") ?? "vapor_database"
-    ), as: .psql)
-
-//    app.migrations.add()
-
-    // register routes
+    configureDatabase(app)
+    app.migrations.add(TaskMigration())
     try routes(app)
+}
+
+func configureDatabase(_ app: Application) {
+    if let databaseURL = Environment.get(DatabaseEnvironmentKey.url),
+       var postgresConfig = PostgresConfiguration(url: databaseURL) {
+        var clientTLSConfiguration = TLSConfiguration.makeClientConfiguration()
+        clientTLSConfiguration.certificateVerification = .none
+        postgresConfig.tlsConfiguration = clientTLSConfiguration
+        app.databases.use(.postgres(configuration: postgresConfig), as: .psql)
+    } else {
+        let databaseName: String
+        let databasePort: Int
+        
+        if app.environment == .testing {
+            databaseName = DatabaseEnvironmentKey.localTestingDatabaseName
+            databasePort = DatabaseEnvironmentKey.localTestingPort
+        } else {
+            databaseName = DatabaseEnvironmentKey.localDatabaseName
+            databasePort = DatabaseEnvironmentKey.localPort
+        }
+
+        app.databases.use(.postgres(hostname: LocalDBInfo.hostName,
+                                    port: databasePort,
+                                    username: LocalDBInfo.userName,
+                                    password: LocalDBInfo.password,
+                                    database: databaseName), as: .psql)
+    }
 }
