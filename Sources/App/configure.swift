@@ -44,11 +44,12 @@ private func configureDatabase(_ app: Application) {
             databasePort = DatabaseEnvironmentKey.localPort
         }
 
-        app.databases.use(.postgres(hostname: LocalDBInfo.hostName,
-                                    port: databasePort,
-                                    username: LocalDBInfo.userName,
-                                    password: LocalDBInfo.password,
-                                    database: databaseName), as: .psql)
+        // For local environment
+//        app.databases.use(.postgres(hostname: LocalDBInfo.hostName,
+//                                    port: databasePort,
+//                                    username: LocalDBInfo.userName,
+//                                    password: LocalDBInfo.password,
+//                                    database: databaseName), as: .psql)
     }
 }
 
