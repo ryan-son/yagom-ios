@@ -10,6 +10,7 @@ import Vapor
 enum PMServerError {
 
     case unsupportedContentType
+    case invalidID
 }
 
 extension PMServerError: AbortError {
@@ -18,6 +19,8 @@ extension PMServerError: AbortError {
         switch self {
         case .unsupportedContentType:
             return "지원되지 않는 Content-Type입니다. Content-Type을 application/json으로 설정해주세요."
+        case .invalidID:
+            return "존재하지 않는 ID입니다."
         }
     }
     
@@ -25,6 +28,8 @@ extension PMServerError: AbortError {
         switch self {
         case .unsupportedContentType:
             return .badRequest
+        case .invalidID:
+            return .notFound
         }
     }
 }
