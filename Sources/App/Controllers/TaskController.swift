@@ -45,6 +45,7 @@ struct TaskController: RouteCollection {
             throw PMServerError.unsupportedContentType
         }
 
+        try PatchTask.validate(content: request)
         let updated = try request.content.decode(PatchTask.self)
         return Task.find(updated.id, on: request.db)
             .unwrap(or: PMServerError.invalidID)
