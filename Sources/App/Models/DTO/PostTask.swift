@@ -15,3 +15,16 @@ struct PostTask: Content {
     let due_date: Int
     let state: String
 }
+
+extension PostTask: Validatable {
+
+    static func validations(_ validations: inout Validations) {
+        validations.add(PMValidationKey.id, as: UUID.self, required: true)
+        validations.add(PMValidationKey.title, as: String.self, required: true)
+        validations.add(PMValidationKey.body,
+                        as: String.self,
+                        is: .count(...PMValidationCondition.maxBodyCount), required: false)
+        validations.add(PMValidationKey.due_date, as: Int.self, required: true)
+        validations.add(PMValidationKey.state, as: String.self, is: .in("todo", "doing", "done"), required: true)
+    }
+}

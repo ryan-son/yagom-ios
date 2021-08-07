@@ -34,9 +34,9 @@ struct TaskController: RouteCollection {
             throw PMServerError.unsupportedContentType
         }
 
+        try PostTask.validate(content: request)
         let posted = try request.content.decode(PostTask.self)
         let willCreate = Task(from: posted)
-
         return willCreate.create(on: request.db).map { willCreate }
     }
 
