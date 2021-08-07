@@ -21,9 +21,9 @@ struct TaskMigration: Migration {
                 .field(Task.Key.body, .string)
                 .field(Task.Key.due_date, .datetime, .required)
                 .field(Task.Key.state, state, .required)
-                .field(Task.Key.created_at, .datetime, .required)
-                .field(Task.Key.updated_at, .datetime, .required)
-                .field(Task.Key.deleted_at, .datetime)
+                .field(Task.Key.created_at, .double, .required)
+                .field(Task.Key.updated_at, .double, .required)
+                .field(Task.Key.deleted_at, .double)
                 .create()
         }
     }
