@@ -20,11 +20,12 @@ enum DatabaseEnvironmentKey {
 
 public func configure(_ app: Application) throws {
     configureDatabase(app)
+    configureEncoder()
     app.migrations.add(TaskMigration())
     try routes(app)
 }
 
-func configureDatabase(_ app: Application) {
+private func configureDatabase(_ app: Application) {
     if let databaseURL = Environment.get(DatabaseEnvironmentKey.url),
        var postgresConfig = PostgresConfiguration(url: databaseURL) {
         var clientTLSConfiguration = TLSConfiguration.makeClientConfiguration()
@@ -49,4 +50,12 @@ func configureDatabase(_ app: Application) {
                                     password: LocalDBInfo.password,
                                     database: databaseName), as: .psql)
     }
+}
+
+private func configureEncoder() {
+    let encoder = JSONEncoder()
+    encoder.outputFormatting = .sortedKeys
+    encoder.dateEncodingStrategy = .iso8601
+
+    ContentConfiguration.global.use(encoder: encoder, for: .json)
 }
