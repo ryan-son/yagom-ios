@@ -4,8 +4,7 @@ import Vapor
 final class Task: Model, Content {
 
     enum Key {
-        static let schema = "task"
-
+        static let id: FieldKey = "id"
         static let title: FieldKey = "title"
         static let body: FieldKey = "body"
         static let due_date: FieldKey = "due_date"
@@ -19,30 +18,30 @@ final class Task: Model, Content {
         case todo, doing, done
     }
 
-    static let schema = Task.Key.schema
+    static let schema = "task"
 
-    @ID(key: .id)
+    @ID(custom: Key.id, generatedBy: .user)
     var id: UUID?
 
-    @Field(key: Task.Key.title)
+    @Field(key: Key.title)
     var title: String
 
-    @Field(key: Task.Key.body)
+    @Field(key: Key.body)
     var body: String?
 
-    @Field(key: Task.Key.due_date)
+    @Field(key: Key.due_date)
     var due_date: Int
 
-    @Field(key: Task.Key.state)
+    @Field(key: Key.state)
     var state: State
 
-    @Timestamp(key: Task.Key.created_at, on: .create, format: .unix)
+    @Timestamp(key: Key.created_at, on: .create, format: .unix)
     var created_at: Date?
 
-    @Timestamp(key: Task.Key.updated_at, on: .update, format: .unix)
+    @Timestamp(key: Key.updated_at, on: .update, format: .unix)
     var updated_at: Date?
 
-    @Timestamp(key: Task.Key.deleted_at, on: .delete, format: .unix)
+    @Timestamp(key: Key.deleted_at, on: .delete, format: .unix)
     var deleted_at: Date?
 
     init() { }
