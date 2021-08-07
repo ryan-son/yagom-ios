@@ -14,10 +14,6 @@ final class Task: Model, Content {
         static let deleted_at: FieldKey = "deleted_at"
     }
 
-    enum State: String, Codable {
-        case todo, doing, done
-    }
-
     static let schema = "task"
 
     @ID(custom: Key.id, generatedBy: .user)
@@ -33,7 +29,7 @@ final class Task: Model, Content {
     var due_date: Int
 
     @Field(key: Key.state)
-    var state: State
+    var state: String
 
     @Timestamp(key: Key.created_at, on: .create, format: .unix)
     var created_at: Date?
@@ -46,11 +42,19 @@ final class Task: Model, Content {
 
     init() { }
 
-    init(id: UUID, title: String, body: String? = nil, due_date: Int, state: State) {
+    init(id: UUID, title: String, body: String? = nil, due_date: Int, state: String) {
         self.id = id
         self.title = title
         self.body = body
         self.due_date = due_date
         self.state = state
+    }
+
+    init(from postTask: PostTask) {
+        id = postTask.id
+        title = postTask.title
+        body = postTask.body
+        due_date = postTask.due_date
+        state = postTask.state
     }
 }
