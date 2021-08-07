@@ -11,3 +11,10 @@ struct DeleteTask: Content {
 
     let id: UUID
 }
+
+extension DeleteTask: Validatable {
+
+    static func validations(_ validations: inout Validations) {
+        validations.add(PMValidationKey.id, as: UUID.self, required: true)
+    }
+}

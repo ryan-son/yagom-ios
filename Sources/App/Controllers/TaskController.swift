@@ -64,6 +64,7 @@ struct TaskController: RouteCollection {
             throw PMServerError.unsupportedContentType
         }
 
+        try DeleteTask.validate(content: request)
         let deleted = try request.content.decode(DeleteTask.self)
         return Task.find(deleted.id, on: request.db)
             .unwrap(or: PMServerError.invalidID)
