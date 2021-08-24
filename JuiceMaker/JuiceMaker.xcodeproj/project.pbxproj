@@ -61,27 +61,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		853A95F22600D258001D7A29 /* StructTypesForDecoding */ = {
-			isa = PBXGroup;
-			children = (
-				AA8DB0812600641100CA0CBE /* Ingredient.swift */,
-				AA8DB07E2600640600CA0CBE /* JuiceType.swift */,
-				AA8DB07B260063FD00CA0CBE /* Recipe.swift */,
-			);
-			path = StructTypesForDecoding;
-			sourceTree = "<group>";
-		};
-		853A95F32600D260001D7A29 /* EnumTypes */ = {
+		AAA9648C26D486F60061618C /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
 				AA8DB075260063BF00CA0CBE /* Fruit.swift */,
-				AA8DB078260063D800CA0CBE /* Juice.swift */,
 				AA8DB07B260063FD00CA0CBE /* Recipe.swift */,
-				AA8DB07E2600640600CA0CBE /* JuiceType.swift */,
 				AA8DB0812600641100CA0CBE /* Ingredient.swift */,
+				AA8DB078260063D800CA0CBE /* Juice.swift */,
 				855854A92603208100BF7606 /* OrderResult.swift */,
+				AA8DB07E2600640600CA0CBE /* JuiceType.swift */,
 			);
-			path = Models;
+			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 		C73DAF2A255D0CDC00020D38 = {
@@ -89,6 +79,7 @@
 			children = (
 				C73DAF35255D0CDD00020D38 /* JuiceMaker */,
 				C73DAF34255D0CDD00020D38 /* Products */,
+				AAA9648C26D486F60061618C /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -103,7 +94,6 @@
 		C73DAF35255D0CDD00020D38 /* JuiceMaker */ = {
 			isa = PBXGroup;
 			children = (
-				AA8DB0A62600897D00CA0CBE /* Models */,
 				C73DAF36255D0CDD00020D38 /* AppDelegate.swift */,
 				C73DAF38255D0CDD00020D38 /* SceneDelegate.swift */,
 				C73DAF3A255D0CDD00020D38 /* ViewController.swift */,
