@@ -1,0 +1,6 @@
+disabled_rules:
+  - nesting
+  - identifier_name
+
+excluded:
+  - ProjectManagerTests/
